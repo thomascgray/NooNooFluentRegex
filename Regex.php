@@ -14,7 +14,7 @@ class Regex
 	
 	//for the cheeky hardcoded ones
 	protected $multiple_string = null;
-		
+	
 	public function __construct()
 	{
 		$this->expression = '';
@@ -30,64 +30,64 @@ class Regex
 	{
 		
 		$this->expression .= "(";
-		
-		if (isset($name))
-		{
-			$this->expression .= "?P<";
-			$this->expression .= $name;
-			$this->expression .= ">";			
-		}
-		
-		$this->expression .= $string;
-				
+		                       
+		                       if (isset($name))
+		                       {
+		                       	$this->expression .= "?P<";
+		                       	$this->expression .= $name;
+		                       	$this->expression .= ">";			
+		                       }
+		                       
+		                       $this->expression .= $string;
+		                       
 		//handle all the multiples stuff		
-		if (isset($this->multiple_value))
-		{				
-			$this->expression .= "{";
-			$this->expression .= $this->multiple_value;
-			
-			if (isset($multiple_value_limit))
-			{
-				$this->expression .= "," + $this->multiple_value_limit . "}";
-			}
-			else
-			{
-				$this->expression .= "}";
-			}
-			$this->multiple_value = null;
-			$this->multiple_value_limit = null;
-		}			
-		
+		                       if (isset($this->multiple_value))
+		                       {				
+		                       	$this->expression .= "{";
+		                       	$this->expression .= $this->multiple_value;
+		                       	
+		                       	if (isset($multiple_value_limit))
+		                       	{
+		                       		$this->expression .= "," + $this->multiple_value_limit . "}";
+		                       	}
+		                       	else
+		                       	{
+		                       		$this->expression .= "}";
+		                       	}
+		                       	$this->multiple_value = null;
+		                       	$this->multiple_value_limit = null;
+		                       }			
+		                       
 		//this also needs to be based on what's sent in - raw characters want it on the outside, ranges want it on the inside
-		switch ($this->multiple_string)
-		{
-			case '':
-				$this->expression .= $this->multiple_string;
-				$this->expression .= ")";
-				break;
-			case self::ZERO_OR_ONE :
-				$this->expression .= ")";
-				$this->expression .= $this->multiple_string;
-				break;
-			case self::ONE_OR_MORE :
-			case self::ZERO_OR_MORE :
-				$this->expression .= $this->multiple_string;
-				$this->expression .= ")";
-				break;
-		}		
-		
-		$this->multiple_string = '';
+		                       switch ($this->multiple_string)
+		                       {
+		                       	case '':
+		                       	$this->expression .= $this->multiple_string;
+		                       	$this->expression .= ")";
+break;
+case self::ZERO_OR_ONE :
+$this->expression .= ")";
+$this->expression .= $this->multiple_string;
+break;
+case self::ONE_OR_MORE :
+case self::ZERO_OR_MORE :
+$this->expression .= $this->multiple_string;
+$this->expression .= ")";
+break;
+}		
 
-		return $this;
-	}
+$this->multiple_string = '';
+
+return $this;
+}
+
+public function multiple($count)
+{
+	$this->multiple_value = $count;
 	
-	public function multiple($count)
-	{
-		$this->multiple_value = $count;
-		
-		return $this;
-	}
-	
+	return $this;
+}
+
 	/**
 	 * Defines the next item as occuring between the two number of times
 	 * @param type $count_low the minimum number of times the next chunk can appear 
@@ -367,5 +367,58 @@ class Match
 		{			
 			throw new OutOfRangeException('Attempting to find group by index or name - Group does not exist');
 		}		
+	}
+}
+
+class Replacer
+{
+	protected $pattern = '';
+	protected $replacement = '';
+	
+	public function __construct($pattern = '', $replacement = '')
+	{
+		$this->pattern = $pattern;
+		$this->replacement = $replacement;
+	}
+	
+	public function getPattern()
+	{
+		return $this->pattern;
+	}
+	
+	public function setPattern($value)
+	{
+		$this->pattern = $value;
+	}
+	
+	public function getReplacement()
+	{
+		return $this->replacement;
+	}
+	
+	public function setReplacement($value)
+	{
+		$this->replacement = $value;
+	}
+	
+	/**
+	 * performs a generic replace on an input, using the pattern and replacement text for this replacer instance
+	 * or, can accept optional replacement and temp patterns to use for a single replace
+	 * @param  [type] $input        [description]
+	 * @param  string $replacement  [description]
+	 * @param  string $temp_pattern [description]
+	 * @return [type]               [description]
+	 */
+	public function replace($input, $replacement = '', $temp_pattern = '')
+	{
+		$replacement_to_use = '';
+		$pattern_to_use = '';
+		
+		$pattern_to_use = (isset($temp_pattern) ? $temp_pattern : $this->pattern);
+		$replacement_to_use = (isset($replacement) ? $replacement : $this->replacement);
+		
+		preg_replace("/".$pattern_to_use."/", $replacement_to_use, $input);
+		
+		return $input;
 	}
 }

@@ -21,5 +21,5 @@ $regex->start()
 		
 echo $regex;
 
-//^(http)(s)?(\:\/\/)(www\.)?([a-zA-Z0-9-_\/]+)(\.co|\.com)(?P<test>[a-zA-Z0-9-_\/]*)$
+//^(http)(s)?(\:\/\/)(www\.)?([a-zA-Z0-9-_\/]+)(\.co|\.com)([a-zA-Z0-9-_\/]*)$
 ```

@@ -23,3 +23,21 @@ echo $regex;
 
 //^(http)(s)?(\:\/\/)(www\.)?([a-zA-Z0-9-_\/]+)(\.co|\.com)([a-zA-Z0-9-_\/]*)$
 ```
+
+###= Exclusive! Build your Regex using _Yorkshire Slang!_
+
+Here's the above example, but this time, a bit more..._~~Northern~~ Better_
+
+```php
+$regex->eyUp()
+		->goOnThen("http")
+		->couldAppen("s")
+		->goOnThen("://")
+		->couldAppen("www.")
+		->oneOrMore()
+		->slugchar()
+		->oneOrTother(".co", ".com")
+		->zeroOrMore()
+		->slugchar()
+		->thatllDo();
+```

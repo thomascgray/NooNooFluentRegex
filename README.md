@@ -3,7 +3,7 @@ NooNooFluentRegex
 
 Build Regex expressions using fluent setters and English language terms
 
-```
+```php
 $regex = new Regex();
 
 //regex for a url

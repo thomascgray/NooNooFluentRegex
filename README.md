@@ -24,7 +24,7 @@ echo $regex;
 //^(http)(s)?(\:\/\/)(www\.)?([a-zA-Z0-9-_\/]+)(\.co|\.com)([a-zA-Z0-9-_\/]*)$
 ```
 
-###= Exclusive! Build your Regex using _Yorkshire Slang!_
+#### Exclusive! Build your Regex using _Yorkshire Slang!_
 
 Here's the above example, but this time, a bit more..._~~Northern~~ Better_
 

@@ -257,6 +257,22 @@ class Regex
 	}
 	
 	/**
+	 * Like either, but for any number of elements in an array
+	 */
+	public function oneOf($elements = array())
+	{
+		$pregged_array = array(); // lol pregged is a funny word
+		foreach ($elements as $element)
+		{
+			$pregged_array[] = preg_quote($element, "/");
+		}
+		
+		$this->add(implode("|", $pregged_array));
+		
+		return $this;
+	}
+	
+	/**
 	 * Just get the raw regex expression
 	 */
 	public function __toString()

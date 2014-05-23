@@ -352,14 +352,35 @@ class Match
 		$this->groups = $output_array;
 	}
 	
+	public function doMatch()
+	{
+		preg_match("/".$pattern."/", $input, $output_array);
+		
+		return $this;
+	}
+	
 	public function setInput($input)
 	{
 		$this->input = $input;
+		
+		return $this;
 	}
 	
 	public function getInput($input)
 	{
 		return $this->input;
+	}
+	
+	public function setPattern($value)
+	{
+		$this->pattern = $value;
+		
+		return $this;
+	}
+	
+	public function getPattern()
+	{
+		return $this->pattern;
 	}
 	
 	public function getGroups()
@@ -377,6 +398,30 @@ class Match
 		{			
 			throw new OutOfRangeException('Attempting to find group by index or name - Group does not exist');
 		}		
+	}
+	
+	public function isMatch()
+	{
+		if (empty($this->groups))
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	public function __invoke()
+	{
+		if ($this->isMatch())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
 
@@ -431,4 +476,24 @@ class Replacer
 		
 		return $input;
 	}
+}
+
+header("Content-Type: text/plain");
+
+$regex = new Regex();
+
+$regex->start()
+		->then("hello")
+		->then("world")
+		->end();
+		
+$match = new Match("helloworld", $regex);
+
+if ($match)
+{
+	echo "true";
+}
+else
+{
+	echo "false";
 }

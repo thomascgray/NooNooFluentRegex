@@ -63,12 +63,12 @@ $regex = new Regex();
 $regex->start()
 	->lowercase("lowercase")
 	->uppercase("uppercase")
-	->then("tom", "name")
+	->raw("[A-Z][a-z]+", "name")
 	->digit("number1")
 	->digit("number2") // number 2...hehehehe
 	->end();
 
-$match = new Match("aZtom69", $regex);
+$match = new Match("aZTom69", $regex);
 
 echo $match->getGroup("name"); // echos "tom"
 echo $match->getGroup("uppercase"); // echos "Z"

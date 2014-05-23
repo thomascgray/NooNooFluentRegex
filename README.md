@@ -55,6 +55,25 @@ $match = new Match("http://www.example.com/example_page", $regex);
 
 echo $match->getGroup(5); // echos "google"
 ```
+You can also return groups using specified names
+
+```php
+$regex = new Regex();
+
+$regex->start()
+	->lowercase("lowercase")
+	->uppercase("uppercase")
+	->then("tom", "name")
+	->digit("number1")
+	->digit("number2") // number 2...hehehehe
+	->end();
+
+$match = new Match("aZtom69", $regex);
+
+echo $match->getGroup("name"); // echos "tom"
+echo $match->getGroup("uppercase"); // echos "Z"
+
+```
 
 
 

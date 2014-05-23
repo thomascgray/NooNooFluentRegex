@@ -70,7 +70,7 @@ $regex->start()
 
 $match = new Match("aZTom69", $regex);
 
-echo $match->getGroup("name"); // echos "tom"
+echo $match->getGroup("name"); // echos "Tom"
 echo $match->getGroup("uppercase"); // echos "Z"
 
 ```

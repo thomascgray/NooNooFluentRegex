@@ -207,7 +207,7 @@ public function multiple($count)
 	/**
 	 * Any single digit
 	 */
-	public function numeric($name = null)
+	public function digit($name = null)
 	{
 		$this->add("[0-9]", $name);
 		
@@ -231,6 +231,16 @@ public function multiple($count)
 	public function then($string, $name = null)
 	{
 		$this->add(preg_quote($string, "/"), $name);
+		
+		return $this;
+	}
+	
+	/**
+	 * Same as then, but for raw regex expressions
+	 */
+	public function raw($string, $name = null)
+	{
+		$this->add($string, $name);
 		
 		return $this;
 	}
@@ -404,10 +414,10 @@ class Replacer
 	/**
 	 * performs a generic replace on an input, using the pattern and replacement text for this replacer instance
 	 * or, can accept optional replacement and temp patterns to use for a single replace
-	 * @param  [type] $input        [description]
-	 * @param  string $replacement  [description]
-	 * @param  string $temp_pattern [description]
-	 * @return [type]               [description]
+	 * @param  string|array $input        the input string to have some characters replaced, or an array etc.
+	 * @param  string $replacement  	  the text to replace the pattern with
+	 * @param  string $temp_pattern 	  the pattern to be replaced
+	 * @return string|array               the string or array, with its pattern replaced
 	 */
 	public function replace($input, $replacement = '', $temp_pattern = '')
 	{

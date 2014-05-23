@@ -73,7 +73,7 @@ else
 If you build your pattern using a NooNooFluentRegex Regex object, each "chunk" that could contain characters will be its own capture group.
 
 ```php
-//using the Regex object from above
+//using the Regex object from the URL example
 
 $match = new Match("http://www.example.com/example_page", $regex);
 

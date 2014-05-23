@@ -59,15 +59,15 @@ $regex->start()
 
 $match = new Match("Hello, world!", $regex);
 
-$match->isMatch() // returns true
+$match->isMatch(); // returns true
 
 //thanks to invoke, you can also just check against the object itself
 
 //ex. this returns true
 if ($match)
-	return true
+	return true;
 else
-	return false
+	return false;
 ```
 
 If you build your pattern using a NooNooFluentRegex Regex object, each "chunk" that could contain characters will be its own capture group.

@@ -77,7 +77,7 @@ If you build your pattern using a NooNooFluentRegex Regex object, each "chunk" t
 
 $match = new Match("http://www.example.com/example_page", $regex);
 
-echo $match->getGroup(5); // echos "google"
+echo $match->getGroup(5); // echos "example"
 ```
 You can also return groups using specified names
 

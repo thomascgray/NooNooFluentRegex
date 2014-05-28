@@ -493,23 +493,3 @@ class Replacer
 		return $input;
 	}
 }
-
-header("Content-Type: text/plain");
-
-$regex = new Regex();
-
-$regex->start()
-		->then("hello")
-		->then("world")
-		->end();
-		
-$match = new Match("helloworld", $regex);
-
-if ($match)
-{
-	echo "true";
-}
-else
-{
-	echo "false";
-}

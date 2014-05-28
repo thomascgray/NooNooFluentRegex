@@ -295,6 +295,22 @@ public function multiple($count)
 		return (string)$this->expression;
 	}
 	
+	/**	 
+	 * just a quick match against some text against the current pattern
+	 */
+	public function isMatch($text)
+	{
+		switch (preg_match($this->pattern, $text))
+		{
+			case 1:
+				return true;
+				break;
+			case 0:
+				return false;
+				break;	
+		}
+	}
+	
 	/**
 	 * 
 	 * Yorkshire From Here

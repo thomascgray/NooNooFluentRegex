@@ -511,16 +511,3 @@ class Replacer
 		return $input;
 	}
 }
-
-$regex = new Regex();
-
-$regex->start()
-		->raw("[A-Z][a-z]+")
-		->end();
-		
-$replacer = new Replacer($regex, "Tom");
-
-$input = "Sam went to play football";
-
-echo $replacer->replace($input);
-

@@ -480,16 +480,47 @@ class Replacer
 	 * @param  string $temp_pattern 	  the pattern to be replaced
 	 * @return string|array               the string or array, with its pattern replaced
 	 */
-	public function replace($input, $replacement = '', $temp_pattern = '')
+	public function replace($input, $replacement = null, $temp_pattern = null)
 	{
 		$replacement_to_use = '';
 		$pattern_to_use = '';
 		
-		$pattern_to_use = (isset($temp_pattern) ? $temp_pattern : $this->pattern);
-		$replacement_to_use = (isset($replacement) ? $replacement : $this->replacement);
+		if (isset($temp_pattern))
+		{
+			$pattern_to_use = $temp_pattern;	
+		}
+		else
+		{
+			$pattern_to_use = $this->pattern;
+		}
 		
-		preg_replace("/".$pattern_to_use."/", $replacement_to_use, $input);
+		if (isset($replacement))
+		{
+			$replacement_to_use = $replacement;
+		}
+		else			
+		{
+			$replacement_to_use = $this->replacement;
+		}
+		
+		$pattern_to_use = ltrim($pattern_to_use, "^");
+		$pattern_to_use = rtrim($pattern_to_use, "$");
+				
+		$input = preg_replace('/'.$pattern_to_use.'/', $replacement_to_use, $input);
 		
 		return $input;
 	}
 }
+
+$regex = new Regex();
+
+$regex->start()
+		->raw("[A-Z][a-z]+")
+		->end();
+		
+$replacer = new Replacer($regex, "Tom");
+
+$input = "Sam went to play football";
+
+echo $replacer->replace($input);
+

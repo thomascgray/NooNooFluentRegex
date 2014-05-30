@@ -98,22 +98,33 @@ echo $match->getGroup("name"); // echos "Tom"
 echo $match->getGroup("uppercase"); // echos "Z"
 
 ```
+###Doing Replacements
 
+We can use the Replacer class to do both mass replacements and individual, case-by-case replacements.
 
+```php
 
+$regex = new Regex();
 
+$regex->start()
+		->raw("[A-Z][a-z]+")
+		->end();
 
+//we set up the replacer with a pattern, and a replacement to use
+$replacer = new Replacer($regex, "Tom");
 
+//now that those 2 are set up, you can start doing mass replacements
 
+echo $replacer->replace("Sam went to play football"); //echos out "Tom went to play football";
+echo $replacer->replace("Dave goes to the shop"); //echos out "Tom goes to the shop";
+```
 
+As said, you can also pass in optional arguments to the replace function to do case by case replacements.
 
+```php
+//using the same variables as before
 
+echo $replacer->replace("Martin plays too much Starcraft", "Sally"); //echos out "Sally plays too much Starcraft";
+```
 
-
-
-
-
-
-
-
-
+You can also pass in an optional third argument of a new pattern to use for a case-by-case replacement.

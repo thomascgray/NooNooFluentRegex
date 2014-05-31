@@ -23,6 +23,11 @@ echo $regex;
 
 //^(http)(s)?(\:\/\/)(www\.)?([a-zA-Z0-9-_\/]+)(\.co|\.com)([a-zA-Z0-9-_\/]*)$
 ```
+####TODO
+- Add docs for every kind of "chunk" you can use.
+- Make some "flag" chunks i.e everything between these 2 is optional in and of itself.
+- Get it PSR complient
+- Get it on composer
 
 ####Exclusive! Build your Regex using _Yorkshire Slang!_
 

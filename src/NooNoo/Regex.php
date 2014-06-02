@@ -355,62 +355,30 @@ class Regex
     }
 
     /**
-     * Yorkshire from here
+     * Use the magic method for the "fun" methods
      *
-     * @return Regex
+     * @param  string $method
+     * @param  mixed  $arguments
+     * @return mixed
      */
-    public function eyUp()
+    public function __call($method, $arguments)
     {
-        $this->start();
+        $allowedMethods = array(
+            'eyUp'        => 'start',
+            'thatllDo'    => 'end',
+            'couldAppen'  => 'maybe',
+            'oneOrTother' => 'either',
+            'goOnThen'    => 'then'
+        );
 
-        return $this;
-    }
+        // If method isn't in the array baove, throw Exception
+        if (!in_array($method, $allowedMethods)) {
+            throw new \Exception('Method ' . $method . ' doesn\'t exist');
+        }
 
-    /**
-     * @return Regex
-     */
-    public function thatllDo()
-    {
-        $this->end();
+        // Return result of method call
+        return call_user_func_array($allowedMethods[$method], $arguments);
 
-        return $this;
-    }
-
-    /**
-     * @param $string
-     * @param null $name
-     * @return Regex
-     */
-    public function couldAppen($string, $name = null)
-    {
-        $this->maybe($string, $name);
-
-        return $this;
-    }
-
-    /**
-     * @param $string1
-     * @param $string2
-     * @param null $name
-     * @return Regex
-     */
-    public function oneOrTother($string1, $string2, $name = null)
-    {
-        $this->either($string1, $string2, $name);
-
-        return $this;
-    }
-
-    /**
-     * @param $string
-     * @param null $name
-     * @return Regex
-     */
-    public function goOnThen($string, $name = null)
-    {
-        $this->then($string, $name);
-
-        return $this;
     }
 
 }

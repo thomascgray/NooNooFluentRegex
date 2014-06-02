@@ -25,10 +25,13 @@ echo $regex;
 ```
 
 ####TODO
+- Change class method visibilities
 - Add docs for every kind of "chunk" you can use.
 - Make some "flag" chunks i.e everything between these 2 is optional in and of itself.
-- Get it PSR complient
-- Get it on composer
+- Add tests
+- Refactor code:
+    - Get it PSR-2 compliant
+    - Get it on Composer/Packagist
 
 ####Exclusive! Build your Regex using _Yorkshire Slang!_
 

@@ -26,6 +26,9 @@ class Regex
     //for the cheeky hardcoded ones
     protected $multiple_string = null;
 
+    /**
+     * Class constructor
+     */
     public function __construct()
     {
         $this->expression = '';
@@ -34,9 +37,9 @@ class Regex
     /**
      * The base action of adding a string/piece of regex/text etc. to the current expression
      *
-     * @param $string       The actual chunk of regex/text/whatever
-     * @param null $name    Optional name for this capture group
-     * @return $this
+     * @param  string $string The actual chunk of regex/text/whatever
+     * @param  string $name   Optional name for this capture group
+     * @return Regex
      */
     public function add($string, $name = null)
     {
@@ -160,7 +163,7 @@ class Regex
     }
 
     /**
-     * Any lowercase character
+     * Any lowercase characters
      * @return Regex
      */
     public function lowercase($name = null)
@@ -169,7 +172,7 @@ class Regex
     }
 
     /**
-     * Any uppercase character
+     * Any uppercase characters
      * @return Regex
      */
     public function uppercase($name = null)
@@ -182,7 +185,7 @@ class Regex
     /**
      * Any letter of any case
      * @param null $name
-     * @return $this
+     * @return Regex
      */
     public function alpha($name = null)
     {
@@ -192,7 +195,7 @@ class Regex
     /**
      * Any letter, number, underscore or hyphen
      * @param null $name
-     * @return $this
+     * @return Regex
      */
     public function slugchar($name = null)
     {
@@ -205,7 +208,7 @@ class Regex
      * Any number of any length
      *
      * @param null $name
-     * @return $this
+     * @return Regex
      */
     public function number($name = null)
     {
@@ -219,7 +222,7 @@ class Regex
      * Match any single digit
      *
      * @param null $name
-     * @return $this
+     * @return Regex
      */
     public function digit($name = null)
     {
@@ -232,7 +235,7 @@ class Regex
      * Match any alpha numeric character ()
      *
      * @param null $name
-     * @return $this
+     * @return Regex
      */
     public function alphanumeric($name = null)
     {
@@ -246,7 +249,7 @@ class Regex
      *
      * @param $string
      * @param null $name
-     * @return $this
+     * @return Regex
      */
     public function then($string, $name = null)
     {
@@ -260,7 +263,7 @@ class Regex
      *
      * @param $string
      * @param null $name
-     * @return $this
+     * @return Regex
      */
     public function raw($string, $name = null)
     {
@@ -274,7 +277,7 @@ class Regex
      *
      * @param $string
      * @param null $name
-     * @return $this
+     * @return Regex
      */
     public function maybe($string, $name = null)
     {
@@ -289,7 +292,7 @@ class Regex
      * @param $string1
      * @param $string2
      * @param null $name
-     * @return $this
+     * @return Regex
      */
     public function either($string1, $string2, $name = null)
     {
@@ -301,7 +304,7 @@ class Regex
     /**
      * Like either, but for any number of elements in an array
      * @param array $elements
-     * @return $this
+     * @return Regex
      */
     public function oneOf($elements = array())
     {
@@ -354,7 +357,7 @@ class Regex
     /**
      * Yorkshire from here
      *
-     * @return $this
+     * @return Regex
      */
     public function eyUp()
     {
@@ -364,7 +367,7 @@ class Regex
     }
 
     /**
-     * @return $this
+     * @return Regex
      */
     public function thatllDo()
     {
@@ -376,7 +379,7 @@ class Regex
     /**
      * @param $string
      * @param null $name
-     * @return $this
+     * @return Regex
      */
     public function couldAppen($string, $name = null)
     {
@@ -389,7 +392,7 @@ class Regex
      * @param $string1
      * @param $string2
      * @param null $name
-     * @return $this
+     * @return Regex
      */
     public function oneOrTother($string1, $string2, $name = null)
     {
@@ -401,7 +404,7 @@ class Regex
     /**
      * @param $string
      * @param null $name
-     * @return $this
+     * @return Regex
      */
     public function goOnThen($string, $name = null)
     {
@@ -409,4 +412,5 @@ class Regex
 
         return $this;
     }
+
 }

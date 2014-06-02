@@ -1,22 +1,18 @@
 <?php
 
+namespace NooNoo;
+
 /**
- * Regex expression builder
+ * Regular expression builder
  *
- * This class uses simple & fluent English words
- * to build regular expression rule.
+ * This class uses simple & fluent English words to build regular expression
+ * rules
  *
- *
- * PHP version 5.3+
- *
- * @category    Regex
- * @package     Regex expression builder
- * @author      Tomgray15
- * @version     1.0.0
+ * @package     NooNoo
+ * @author      tomgray15
+ * @version     0.1.1
  *
  */
-namespace NooNoo\FluentRegex;
-
 class Regex
 {
     const ZERO_OR_MORE = "*";
@@ -412,190 +408,5 @@ class Regex
         $this->then($string, $name);
 
         return $this;
-    }
-}
-
-/**
- * Class Match
- * @package NooNoo\FluentRegex
- */
-class Match
-{
-    protected $input = '';
-    protected $pattern = '';
-    protected $groups = array();
-
-    public function __construct($input = '', $pattern = '')
-    {
-        $this->input = $input;
-        $this->pattern = $pattern;
-
-        preg_match("/" . $pattern . "/", $input, $output_array);
-
-        $this->groups = $output_array;
-    }
-
-    /**
-     * @return $this
-     */
-    public function doMatch()
-    {
-        preg_match("/" . $pattern . "/", $input, $output_array);
-
-        return $this;
-    }
-
-    /**
-     * @param $input
-     * @return $this
-     */
-    public function setInput($input)
-    {
-        $this->input = $input;
-
-        return $this;
-    }
-
-    /**
-     * @param $input
-     * @return string
-     */
-    public function getInput($input)
-    {
-        return $this->input;
-    }
-
-    /**
-     * @param $value
-     * @return $this
-     */
-    public function setPattern($value)
-    {
-        $this->pattern = $value;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPattern()
-    {
-        return $this->pattern;
-    }
-
-    /**
-     * @return array
-     */
-    public function getGroups()
-    {
-        return $this->groups;
-    }
-
-    /**
-     * @param $index_or_name
-     * @return mixed
-     * @throws OutOfRangeException
-     */
-    public function getGroup($index_or_name)
-    {
-        if (isset($this->groups[$index_or_name])) {
-            return $this->groups[$index_or_name];
-        } else {
-            throw new OutOfRangeException('Attempting to find group by index or name - Group does not exist');
-        }
-    }
-
-    /**
-     * @return bool
-     */
-    public function isMatch()
-    {
-        if (empty($this->groups)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * @return bool
-     */
-    public function __invoke()
-    {
-        if ($this->isMatch()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-}
-
-/**
- * Class Replacer
- * @package NooNoo\FluentRegex
- */
-class Replacer
-{
-    protected $pattern = '';
-    protected $replacement = '';
-
-    public function __construct($pattern = '', $replacement = '')
-    {
-        $this->pattern = $pattern;
-        $this->replacement = $replacement;
-    }
-
-    public function getPattern()
-    {
-        return $this->pattern;
-    }
-
-    public function setPattern($value)
-    {
-        $this->pattern = $value;
-    }
-
-    public function getReplacement()
-    {
-        return $this->replacement;
-    }
-
-    public function setReplacement($value)
-    {
-        $this->replacement = $value;
-    }
-
-    /**
-     * performs a generic replace on an input, using the pattern and replacement text for this replacer instance
-     * or, can accept optional replacement and temp patterns to use for a single replace
-     * @param  string|array $input        the input string to have some characters replaced, or an array etc.
-     * @param  string $replacement      the text to replace the pattern with
-     * @param  string $temp_pattern      the pattern to be replaced
-     * @return string|array               the string or array, with its pattern replaced
-     */
-    public function replace($input, $replacement = null, $temp_pattern = null)
-    {
-        $replacement_to_use = '';
-        $pattern_to_use = '';
-
-        if (isset($temp_pattern)) {
-            $pattern_to_use = $temp_pattern;
-        } else {
-            $pattern_to_use = $this->pattern;
-        }
-
-        if (isset($replacement)) {
-            $replacement_to_use = $replacement;
-        } else {
-            $replacement_to_use = $this->replacement;
-        }
-
-        $pattern_to_use = ltrim($pattern_to_use, "^");
-        $pattern_to_use = rtrim($pattern_to_use, "$");
-
-        $input = preg_replace('/' . $pattern_to_use . '/', $replacement_to_use, $input);
-
-        return $input;
     }
 }

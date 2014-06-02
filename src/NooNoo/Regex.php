@@ -15,16 +15,23 @@ namespace NooNoo;
  */
 class Regex
 {
-    const ZERO_OR_MORE = "*";
-    const ONE_OR_MORE = "+";
-    const ZERO_OR_ONE = "?";
+    const DELIMITER                 = '#';
+    const ZERO_OR_MORE              = '*';
+    const ONE_OR_MORE               = '+';
+    const ZERO_OR_ONE               = '?';
 
+    /**
+     * The current regex string
+     * @var string
+     */
     protected $expression;
-    protected $multiple_value = null;
+
+
+    protected $multiple_value       = null;
     protected $multiple_value_limit = null;
 
     //for the cheeky hardcoded ones
-    protected $multiple_string = null;
+    protected $multiple_string      = null;
 
     /**
      * Class constructor
@@ -44,44 +51,40 @@ class Regex
     public function add($string, $name = null)
     {
 
-        $this->expression .= "(";
+        $this->expression .= '(';
 
         if (isset($name)) {
-            $this->expression .= "?P<";
-            $this->expression .= $name;
-            $this->expression .= ">";
+            $this->expression .= '?P<' . $name . '>';
         }
 
         $this->expression .= $string;
 
-        //handle all the multiples stuff
+        // Handle expression opening bracket nesting
         if (isset($this->multiple_value)) {
-            $this->expression .= "{";
-            $this->expression .= $this->multiple_value;
+            $this->expression .= '{' . $this->multiple_value;
 
-            if (isset($multiple_value_limit)) {
-                $this->expression .= "," + $this->multiple_value_limit . "}";
-            } else {
-                $this->expression .= "}";
-            }
-            $this->multiple_value = null;
+            $this->expression .= isset($this->multiple_value_limit)
+                ? ',' . $this->multiple_value_limit . '}'
+                : '}';
+
+            $this->multiple_value       = null;
             $this->multiple_value_limit = null;
         }
 
-        //this also needs to be based on what's sent in - raw characters want it on the outside, ranges want it on the inside
+        // Handle expression closing bracket nesting
         switch ($this->multiple_string) {
-            case '':
-                $this->expression .= $this->multiple_string;
-                $this->expression .= ")";
+
+            case self::ZERO_OR_ONE:
+                $this->expression .= ')' . $this->multiple_string;
                 break;
-            case self::ZERO_OR_ONE :
-                $this->expression .= ")";
-                $this->expression .= $this->multiple_string;
+
+            case self::ONE_OR_MORE:
+            case self::ZERO_OR_MORE:
+                $this->expression .= $this->multiple_string . ')';
                 break;
-            case self::ONE_OR_MORE :
-            case self::ZERO_OR_MORE :
-                $this->expression .= $this->multiple_string;
-                $this->expression .= ")";
+
+            default:
+                $this->expression .= $this->multiple_string . ')';
                 break;
         }
 
@@ -99,13 +102,14 @@ class Regex
 
     /**
      * Defines the next item as occuring between the two number of times
-     * @param type $count_low the minimum number of times the next chunk can appear
-     * @param type $count_high the maximum number of times the next chunk can appear
-     * @return type
+     *
+     * @param  int $count_low  the minimum number of times the next chunk can appear
+     * @param  int $count_high the maximum number of times the next chunk can appear
+     * @return Regex
      */
     public function between($count_low, $count_high)
     {
-        $this->multiple_value = $count_low;
+        $this->multiple_value       = $count_low;
         $this->multiple_value_limit = $count_high;
 
         return $this;
@@ -113,17 +117,19 @@ class Regex
 
     /**
      * Defines as having exactly one or infinite of the next item
+     *
+     * @return Regex
      */
     public function oneOrMore()
     {
         $this->multiple_string = self::ONE_OR_MORE;
-
         return $this;
     }
 
     /**
      * Defines having exactly zero or infinite of the next item
-     * @return type
+     *
+     * @return Regex
      */
     public function zeroOrMore()
     {
@@ -134,6 +140,8 @@ class Regex
 
     /**
      * Defines having exactly zero or one of the next item
+     *
+     * @return Regex
      */
     public function optional()
     {
@@ -144,6 +152,7 @@ class Regex
 
     /**
      * Defines the start of a line
+     *
      * @return Regex
      */
     public function start()
@@ -155,6 +164,7 @@ class Regex
 
     /**
      * Defines the end of a line
+     *
      * @return Regex
      */
     public function end()
@@ -164,6 +174,8 @@ class Regex
 
     /**
      * Any lowercase characters
+     *
+     * @param  string $name
      * @return Regex
      */
     public function lowercase($name = null)
@@ -173,6 +185,8 @@ class Regex
 
     /**
      * Any uppercase characters
+     *
+     * @param  string $name
      * @return Regex
      */
     public function uppercase($name = null)
@@ -184,7 +198,8 @@ class Regex
 
     /**
      * Any letter of any case
-     * @param null $name
+     *
+     * @param  string $name
      * @return Regex
      */
     public function alpha($name = null)
@@ -194,7 +209,8 @@ class Regex
 
     /**
      * Any letter, number, underscore or hyphen
-     * @param null $name
+     *
+     * @param  string $name
      * @return Regex
      */
     public function slugchar($name = null)
@@ -232,9 +248,9 @@ class Regex
     }
 
     /**
-     * Match any alpha numeric character ()
+     * Match any alphanumeric character
      *
-     * @param null $name
+     * @param  string $name
      * @return Regex
      */
     public function alphanumeric($name = null)
@@ -247,13 +263,13 @@ class Regex
     /**
      * Baically an alias for "add"
      *
-     * @param $string
-     * @param null $name
+     * @param  string $string
+     * @param  string $name
      * @return Regex
      */
     public function then($string, $name = null)
     {
-        $this->add(preg_quote($string, "/"), $name);
+        $this->add(preg_quote($string, self::DELIMITER), $name);
 
         return $this;
     }
@@ -261,8 +277,8 @@ class Regex
     /**
      * Same as then, but for raw regex expressions
      *
-     * @param $string
-     * @param null $name
+     * @param  $string string
+     * @param  string  $name
      * @return Regex
      */
     public function raw($string, $name = null)
@@ -275,42 +291,44 @@ class Regex
     /**
      * A Wrapper making something optional then doing an add
      *
-     * @param $string
-     * @param null $name
+     * @param  string $string
+     * @param  string $name
      * @return Regex
      */
     public function maybe($string, $name = null)
     {
         $this->optional();
-        $this->add(preg_quote($string, "/"), $name);
+        $this->add(preg_quote($string, self::DELIMITER), $name);
 
         return $this;
     }
 
     /**
      * Wrapper to create an optional chunk from 2 different strings
-     * @param $string1
-     * @param $string2
-     * @param null $name
+     *
+     * @param  string $string1
+     * @param  string $string2
+     * @param  string $name
      * @return Regex
      */
     public function either($string1, $string2, $name = null)
     {
-        $this->add(preg_quote($string1, "/") . "|" . preg_quote($string2, "/"), $name);
+        $this->add(preg_quote($string1, self::DELIMITER) . "|" . preg_quote($string2, self::DELIMITER), $name);
 
         return $this;
     }
 
     /**
      * Like either, but for any number of elements in an array
-     * @param array $elements
+     *
+     * @param  array $elements
      * @return Regex
      */
     public function oneOf($elements = array())
     {
         $pregged_array = array(); // lol pregged is a funny word
         foreach ($elements as $element) {
-            $pregged_array[] = preg_quote($element, "/");
+            $pregged_array[] = preg_quote($element, self::DELIMITER);
         }
 
         $this->add(implode("|", $pregged_array));
@@ -325,13 +343,13 @@ class Regex
      */
     public function __toString()
     {
-        return (string)$this->expression;
+        return (string) $this->expression;
     }
 
     /**
-     * just a quick match against some text against the current pattern
+     * Match a string against the current pattern
      *
-     * @param $text
+     * @param  string $text
      * @return bool
      */
     public function isMatch($text)
@@ -372,5 +390,4 @@ class Regex
         return call_user_func_array($allowedMethods[$method], $arguments);
 
     }
-
 }

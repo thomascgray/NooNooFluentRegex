@@ -329,14 +329,6 @@ class Regex
     }
 
     /**
-     * @return string
-     */
-    public function get()
-    {
-        return (string)$this->expression;
-    }
-
-    /**
      * just a quick match against some text against the current pattern
      *
      * @param $text

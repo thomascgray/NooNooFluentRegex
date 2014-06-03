@@ -101,7 +101,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers NooNoo\Regex::start()
+     * @covers NooNoo\Regex::start
      */
     public function testStart()
     {
@@ -109,7 +109,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers NooNoo\Regex::end()
+     * @covers NooNoo\Regex::end
      */
     public function testEnd()
     {
@@ -117,7 +117,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers NooNoo\Regex::lowercase()
+     * @covers NooNoo\Regex::lowercase
      */
     public function testLowercase()
     {
@@ -125,7 +125,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers NooNoo\Regex::uppercase()
+     * @covers NooNoo\Regex::uppercase
      */
     public function testUppercase()
     {
@@ -133,7 +133,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers NooNoo\Regex::alpha()
+     * @covers NooNoo\Regex::alpha
      */
     public function testAlpha()
     {
@@ -141,7 +141,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers NooNoo\Regex::slugchar()
+     * @covers NooNoo\Regex::slugchar
      */
     public function testSlugchar()
     {
@@ -149,7 +149,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers NooNoo\Regex::number()
+     * @covers NooNoo\Regex::number
      */
     public function testNumber()
     {
@@ -157,7 +157,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers NooNoo\Regex::digit()
+     * @covers NooNoo\Regex::digit
      */
     public function testDigit()
     {
@@ -165,58 +165,57 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers NooNoo\Regex::alphanumeric()
+     * @covers NooNoo\Regex::alphanumeric
      */
     public function testAlphanumeric()
     {
-        $this->assertEquals('([a-zA-Z0-9])', $this->object->alphanumeric());
+        $actual = $this->object->alphanumeric();
+        $this->assertEquals('([a-zA-Z0-9])', $actual);
+
+        // So we can use the @depends annotation
+        return $actual;
     }
 
     /**
-     * @covers NooNoo\Regex::then
-     * @todo   Implement testThen().
+     * @covers  NooNoo\Regex::then
+     * @depends testAlphanumeric
      */
-    public function testThen()
+    public function testThen($object)
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $actual = $object->then('teststring');
+        $this->assertEquals('([a-zA-Z0-9])(teststring)', $actual);
     }
 
     /**
-     * @covers NooNoo\Regex::raw
-     * @todo   Implement testRaw().
+     * @covers  NooNoo\Regex::raw
+     * @depends testAlphanumeric
      */
-    public function testRaw()
+    public function testRaw($object)
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $actual = $object->raw('(.*)');
+        $this->assertEquals('([a-zA-Z0-9])(teststring)((.*))', $actual);
     }
 
     /**
-     * @covers NooNoo\Regex::maybe
-     * @todo   Implement testMaybe().
+     * @covers  NooNoo\Regex::maybe
+     * @depends testAlphanumeric
      */
-    public function testMaybe()
+    public function testMaybe($object)
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $actual = $object->maybe('perhaps');
+        $this->assertEquals('([a-zA-Z0-9])(teststring)((.*))(perhaps)?', $actual);
     }
 
     /**
-     * @covers NooNoo\Regex::either
-     * @todo   Implement testEither().
+     * @covers  NooNoo\Regex::either
+     * @depends testAlphanumeric
      */
-    public function testEither()
+    public function testEither($object)
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $actual = $object->either('couldbe', 'mightbe');
+        $this->assertEquals(
+            '([a-zA-Z0-9])(teststring)((.*))(perhaps)?(couldbe|mightbe)',
+            $actual
         );
     }
 

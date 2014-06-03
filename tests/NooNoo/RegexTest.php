@@ -121,7 +121,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testLowercase()
     {
-        $this->assertEquals('([a-z])$', $this->object->lowercase()->end());
+        $this->assertEquals('([a-z])', $this->object->lowercase());
     }
 
     /**
@@ -129,64 +129,47 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testUppercase()
     {
-        $this->assertEquals('([A-Z])$', $this->object->uppercase()->end());
+        $this->assertEquals('([A-Z])', $this->object->uppercase());
     }
 
     /**
-     * @covers NooNoo\Regex::alpha
-     * @todo   Implement testAlpha().
+     * @covers NooNoo\Regex::alpha()
      */
     public function testAlpha()
     {
-        $this->assertEquals('([a-zA-Z])$', $this->object->alpha()->end());
+        $this->assertEquals('([a-zA-Z])', $this->object->alpha());
     }
 
     /**
-     * @covers NooNoo\Regex::slugchar
-     * @todo   Implement testSlugchar().
+     * @covers NooNoo\Regex::slugchar()
      */
     public function testSlugchar()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertEquals('([a-zA-Z0-9-_\/])', $this->object->slugchar());
     }
 
     /**
-     * @covers NooNoo\Regex::number
-     * @todo   Implement testNumber().
+     * @covers NooNoo\Regex::number()
      */
     public function testNumber()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertEquals('([0-9]+)', $this->object->number());
     }
 
     /**
-     * @covers NooNoo\Regex::digit
-     * @todo   Implement testDigit().
+     * @covers NooNoo\Regex::digit()
      */
     public function testDigit()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertEquals('([0-9])', $this->object->digit());
     }
 
     /**
-     * @covers NooNoo\Regex::alphanumeric
-     * @todo   Implement testAlphanumeric().
+     * @covers NooNoo\Regex::alphanumeric()
      */
     public function testAlphanumeric()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->assertEquals('([a-zA-Z0-9])', $this->object->alphanumeric());
     }
 
     /**
@@ -253,7 +236,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      * @covers NooNoo\Regex::__toString
      * @todo   Implement test__toString().
      */
-    public function test__toString()
+    public function testToString()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(

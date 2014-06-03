@@ -191,9 +191,7 @@ class Regex
      */
     public function uppercase($name = null)
     {
-        $this->add("[A-Z]", $name);
-
-        return $this;
+        return $this->add("[A-Z]", $name);
     }
 
     /**
@@ -215,36 +213,30 @@ class Regex
      */
     public function slugchar($name = null)
     {
-        $this->add("[a-zA-Z0-9-_\/]", $name);
-
-        return $this;
+        return $this->add("[a-zA-Z0-9-_\/]", $name);
     }
 
     /**
      * Any number of any length
      *
-     * @param null $name
+     * @param  string $name
      * @return Regex
      */
     public function number($name = null)
     {
-        $this->add("[0-9]+", $name);
-
-        return $this;
+        return $this->add("[0-9]+", $name);
     }
 
 
     /**
-     * Match any single digit
+     * Match a single digit
      *
-     * @param null $name
+     * @param  string $name
      * @return Regex
      */
     public function digit($name = null)
     {
-        $this->add("[0-9]", $name);
-
-        return $this;
+        return $this->add("[0-9]", $name);
     }
 
     /**
@@ -255,9 +247,7 @@ class Regex
      */
     public function alphanumeric($name = null)
     {
-        $this->add("[a-zA-Z0-9]", $name);
-
-        return $this;
+        return $this->add("[a-zA-Z0-9]", $name);
     }
 
     /**
@@ -269,27 +259,23 @@ class Regex
      */
     public function then($string, $name = null)
     {
-        $this->add(preg_quote($string, self::DELIMITER), $name);
-
-        return $this;
+        return $this->add(preg_quote($string, self::DELIMITER), $name);
     }
 
     /**
-     * Same as then, but for raw regex expressions
+     * Same as ``then()``, but for raw regex expressions
      *
-     * @param  $string string
+     * @param  string  $string
      * @param  string  $name
      * @return Regex
      */
     public function raw($string, $name = null)
     {
-        $this->add($string, $name);
-
-        return $this;
+        return $this->add($string, $name);
     }
 
     /**
-     * A Wrapper making something optional then doing an add
+     * Make something optional then do an add
      *
      * @param  string $string
      * @param  string $name
@@ -298,9 +284,7 @@ class Regex
     public function maybe($string, $name = null)
     {
         $this->optional();
-        $this->add(preg_quote($string, self::DELIMITER), $name);
-
-        return $this;
+        return $this->add(preg_quote($string, self::DELIMITER), $name);
     }
 
     /**
@@ -313,9 +297,10 @@ class Regex
      */
     public function either($string1, $string2, $name = null)
     {
-        $this->add(preg_quote($string1, self::DELIMITER) . "|" . preg_quote($string2, self::DELIMITER), $name);
-
-        return $this;
+        return $this->add(
+            preg_quote($string1, self::DELIMITER) . '|' . preg_quote($string2, self::DELIMITER),
+            $name
+        );
     }
 
     /**
@@ -331,13 +316,11 @@ class Regex
             $pregged_array[] = preg_quote($element, self::DELIMITER);
         }
 
-        $this->add(implode("|", $pregged_array));
-
-        return $this;
+        return $this->add(implode("|", $pregged_array));
     }
 
     /**
-     * Just get the raw regex expression
+     * Get the raw regular expression
      *
      * @return string
      */
@@ -354,14 +337,9 @@ class Regex
      */
     public function isMatch($text)
     {
-        switch (preg_match($this->pattern, $text)) {
-            case 1:
-                return true;
-                break;
-            case 0:
-                return false;
-                break;
-        }
+        return preg_match($this->pattern, $text) === 1
+            ? true
+            : false;
     }
 
     /**

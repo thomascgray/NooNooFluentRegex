@@ -29,83 +29,53 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers NooNoo\Regex::add()
-     * @todo   Implement testAdd().
+     * @covers NooNoo\Regex::add
      */
     public function testAdd()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $actual = $this->object->add('add');
+        $this->assertEquals('(add)', $actual);
     }
 
     /**
-     * @covers NooNoo\Regex::multiple
-     * @todo   Implement testMultiple().
+     * @covers NooNoo\Regex::add
+     * @covers NooNoo\Regex::addLimit
      */
-    public function testMultiple()
+    public function testAddWithLimit()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $actual = $this->object->between(1, 2)->add('add');
+        $this->assertEquals('(add{1,2})', $actual);
     }
 
     /**
-     * @covers NooNoo\Regex::between
-     * @todo   Implement testBetween().
+     * @covers NooNoo\Regex::add
+     * @covers NooNoo\Regex::addModifier
      */
-    public function testBetween()
+    public function testAddWithModifierZeroOrMore()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $actual = $this->object->zeroOrMore()->add('zeroOrMore');
+        $this->assertEquals('(zeroOrMore*)', $actual);
     }
 
     /**
-     * @covers NooNoo\Regex::oneOrMore
-     * @todo   Implement testOneOrMore().
-     */
-    public function testOneOrMore()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers NooNoo\Regex::zeroOrMore
-     * @todo   Implement testZeroOrMore().
-     */
-    public function testZeroOrMore()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
+     * @covers NooNoo\Regex::add
+     * @covers NooNoo\Regex::addModifier
      * @covers NooNoo\Regex::optional
-     * @todo   Implement testOptional().
      */
-    public function testOptional()
+    public function testAddWithModifierOptional()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $actual = $this->object->optional()->add('zeroOrOne');
+        $this->assertEquals('(zeroOrOne)?', $actual);
     }
+
 
     /**
      * @covers NooNoo\Regex::start
      */
     public function testStart()
     {
-        $this->assertEquals('^', $this->object->start());
+        $actual = $this->object->start();
+        $this->assertEquals('^', $actual);
     }
 
     /**
@@ -113,7 +83,8 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testEnd()
     {
-        $this->assertEquals('$', $this->object->end());
+        $actual = $this->object->end();
+        $this->assertEquals('$', $actual);
     }
 
     /**
@@ -121,7 +92,8 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testLowercase()
     {
-        $this->assertEquals('([a-z])', $this->object->lowercase());
+        $actual = $this->object->lowercase();
+        $this->assertEquals('([a-z])', $actual);
     }
 
     /**
@@ -129,7 +101,8 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testUppercase()
     {
-        $this->assertEquals('([A-Z])', $this->object->uppercase());
+        $actual = $this->object->uppercase();
+        $this->assertEquals('([A-Z])', $actual);
     }
 
     /**
@@ -137,7 +110,8 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testAlpha()
     {
-        $this->assertEquals('([a-zA-Z])', $this->object->alpha());
+        $actual = $this->object->alpha();
+        $this->assertEquals('([a-zA-Z])', $actual);
     }
 
     /**
@@ -145,7 +119,8 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testSlugchar()
     {
-        $this->assertEquals('([a-zA-Z0-9-_\/])', $this->object->slugchar());
+        $actual = $this->object->slugchar();
+        $this->assertEquals('([a-zA-Z0-9-_\/])', $actual);
     }
 
     /**
@@ -153,7 +128,8 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testNumber()
     {
-        $this->assertEquals('([0-9]+)', $this->object->number());
+        $actual = $this->object->number();
+        $this->assertEquals('([0-9]+)', $actual);
     }
 
     /**
@@ -161,7 +137,8 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testDigit()
     {
-        $this->assertEquals('([0-9])', $this->object->digit());
+        $actual = $this->object->digit();
+        $this->assertEquals('([0-9])', $actual);
     }
 
     /**
@@ -232,6 +209,58 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers NooNoo\Regex::multiple
+     * @todo   Implement testMultiple().
+     */
+    public function testMultiple()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
+    }
+
+    /**
+     * @covers NooNoo\Regex::between
+     * @todo   Implement testBetween().
+     */
+    public function testBetween()
+    {
+        $actual = $this->object->between(1, 2)->uppercase();
+        $this->assertEquals('([A-Z]{1,2})', $actual);
+    }
+
+    /**
+     * @covers  NooNoo\Regex::oneOrMore
+     */
+    public function testOneOrMore()
+    {
+        $actual = $this->object->oneOrMore()->uppercase();
+        $this->assertEquals('([A-Z]+)', $actual);
+    }
+
+    /**
+     * @covers NooNoo\Regex::zeroOrMore
+     */
+    public function testZeroOrMore()
+    {
+        $actual = $this->object->zeroOrMore()->uppercase();
+        $this->assertEquals('([A-Z]*)', $actual);
+    }
+
+    /**
+     * @covers NooNoo\Regex::optional
+     * @todo   Implement testOptional().
+     */
+    public function testOptional()
+    {
+        // Remove the following lines when you implement this test.
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
+    }
+
+    /**
      * @covers NooNoo\Regex::__toString
      * @todo   Implement test__toString().
      */
@@ -268,66 +297,31 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Farmer Methods :P
+     * Extra methods
      */
 
     /**
-     * @covers NooNoo\Regex::eyUp
-     * @todo   Implement testEyUp().
+     * @covers NooNoo\Regex::__call
      */
-    public function testEyUp()
+    public function testYorkshireMethods()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $actual = $this->object->eyUp()
+            ->goOnThen('test')
+            ->couldAppen('s')
+            ->goOnThen('more')
+            ->couldAppen('text')
+            ->oneOrTother('maybe', 'maybenot')
+            ->thatllDo();
+
+        $this->assertEquals('^(test)(s)?(more)(text)?(maybe|maybenot)$', $actual);
     }
 
     /**
-     * @covers NooNoo\Regex::thatllDo
-     * @todo   Implement testThatllDo().
+     * @covers            NooNoo\Regex::__call()
+     * @expectedException Exception
      */
-    public function testThatllDo()
+    public function testNonexistentMethod()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers NooNoo\Regex::couldAppen
-     * @todo   Implement testCouldAppen().
-     */
-    public function testCouldAppen()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers NooNoo\Regex::oneOrTother
-     * @todo   Implement testOneOrTother().
-     */
-    public function testOneOrTother()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers NooNoo\Regex::goOnThen
-     * @todo   Implement testGoOnThen().
-     */
-    public function testGoOnThen()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->object->trololol();
     }
 }

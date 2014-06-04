@@ -59,7 +59,14 @@ class Regex
 
         $this->expression .= $string;
 
-        // Handle expression opening bracket nesting
+        $this->addLimit();
+        $this->addModifier();
+
+        return $this;
+    }
+
+    protected function addLimit()
+    {
         if (isset($this->multiple_value)) {
             $this->expression .= '{' . $this->multiple_value;
 
@@ -70,8 +77,11 @@ class Regex
             $this->multiple_value       = null;
             $this->multiple_value_limit = null;
         }
+    }
 
-        // Handle expression closing bracket nesting
+    protected function addModifier()
+    {
+        // Handle modifiers
         switch ($this->multiple_string) {
 
             case self::ZERO_OR_ONE:
@@ -88,66 +98,7 @@ class Regex
                 break;
         }
 
-        $this->multiple_string = '';
-
-        return $this;
-    }
-
-    public function multiple($count)
-    {
-        $this->multiple_value = $count;
-
-        return $this;
-    }
-
-    /**
-     * Defines the next item as occuring between the two number of times
-     *
-     * @param  int $count_low  the minimum number of times the next chunk can appear
-     * @param  int $count_high the maximum number of times the next chunk can appear
-     * @return Regex
-     */
-    public function between($count_low, $count_high)
-    {
-        $this->multiple_value       = $count_low;
-        $this->multiple_value_limit = $count_high;
-
-        return $this;
-    }
-
-    /**
-     * Defines as having exactly one or infinite of the next item
-     *
-     * @return Regex
-     */
-    public function oneOrMore()
-    {
-        $this->multiple_string = self::ONE_OR_MORE;
-        return $this;
-    }
-
-    /**
-     * Defines having exactly zero or infinite of the next item
-     *
-     * @return Regex
-     */
-    public function zeroOrMore()
-    {
-        $this->multiple_string = self::ZERO_OR_MORE;
-
-        return $this;
-    }
-
-    /**
-     * Defines having exactly zero or one of the next item
-     *
-     * @return Regex
-     */
-    public function optional()
-    {
-        $this->multiple_string = self::ZERO_OR_ONE;
-
-        return $this;
+        $this->multiple_string = "";
     }
 
     /**
@@ -157,7 +108,7 @@ class Regex
      */
     public function start()
     {
-        $this->expression .= '^';
+        $this->expression .= "^";
 
         return $this;
     }
@@ -169,7 +120,7 @@ class Regex
      */
     public function end()
     {
-        return $this->expression .= '$';
+        return $this->expression .= "$";
     }
 
     /**
@@ -298,7 +249,7 @@ class Regex
     public function either($string1, $string2, $name = null)
     {
         return $this->add(
-            preg_quote($string1, self::DELIMITER) . '|' . preg_quote($string2, self::DELIMITER),
+            preg_quote($string1, self::DELIMITER) . "|" . preg_quote($string2, self::DELIMITER),
             $name
         );
     }
@@ -318,6 +269,65 @@ class Regex
 
         return $this->add(implode("|", $pregged_array));
     }
+
+
+    public function multiple($count)
+    {
+        $this->multiple_value = $count;
+
+        return $this;
+    }
+
+    /**
+     * Defines the next item as occuring between the two number of times
+     *
+     * @param  int $count_low  the minimum number of times the next chunk can appear
+     * @param  int $count_high the maximum number of times the next chunk can appear
+     * @return Regex
+     */
+    public function between($count_low, $count_high)
+    {
+        $this->multiple_value       = $count_low;
+        $this->multiple_value_limit = $count_high;
+
+        return $this;
+    }
+
+    /**
+     * Defines as having exactly one or infinite of the next item
+     *
+     * @return Regex
+     */
+    public function oneOrMore()
+    {
+        $this->multiple_string = self::ONE_OR_MORE;
+        return $this;
+    }
+
+    /**
+     * Defines having exactly zero or infinite of the next item
+     *
+     * @return Regex
+     */
+    public function zeroOrMore()
+    {
+        $this->multiple_string = self::ZERO_OR_MORE;
+
+        return $this;
+    }
+
+    /**
+     * Defines having exactly zero or one of the next item
+     *
+     * @return Regex
+     */
+    public function optional()
+    {
+        $this->multiple_string = self::ZERO_OR_ONE;
+
+        return $this;
+    }
+
 
     /**
      * Get the raw regular expression
@@ -352,20 +362,23 @@ class Regex
     public function __call($method, $arguments)
     {
         $allowedMethods = array(
-            'eyUp'        => 'start',
-            'thatllDo'    => 'end',
-            'couldAppen'  => 'maybe',
-            'oneOrTother' => 'either',
-            'goOnThen'    => 'then'
+            "eyUp"        => "start",
+            "thatllDo"    => "end",
+            "couldAppen"  => "maybe",
+            "oneOrTother" => "either",
+            "goOnThen"    => "then"
         );
 
-        // If method isn't in the array baove, throw Exception
-        if (!in_array($method, $allowedMethods)) {
-            throw new \Exception('Method ' . $method . ' doesn\'t exist');
+        // If method isn"t in the array baove, throw Exception
+        if (!in_array($method, array_keys($allowedMethods))) {
+            throw new \Exception("Method " . $method . " doesn\"t exist");
         }
 
         // Return result of method call
-        return call_user_func_array($allowedMethods[$method], $arguments);
+        return call_user_func_array(
+            array($this, $allowedMethods[$method]),
+            $arguments
+        );
 
     }
 }

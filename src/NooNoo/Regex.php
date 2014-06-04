@@ -82,20 +82,11 @@ class Regex
     protected function addModifier()
     {
         // Handle modifiers
-        switch ($this->multiple_string) {
+        $this->expression .= $this->multiple_string === self::ZERO_OR_ONE
+            ? ')' . $this->multiple_string
+            : $this->multiple_string . ')';
 
-            case self::ZERO_OR_ONE:
-                $this->expression .= ')' . $this->multiple_string;
-                break;
-
-            case self::ONE_OR_MORE:
-            case self::ZERO_OR_MORE:
-            default:
-                $this->expression .= $this->multiple_string . ')';
-                break;
-        }
-
-        $this->multiple_string = "";
+        $this->multiple_string = '';
     }
 
     /**
@@ -345,7 +336,13 @@ class Regex
      */
     public function isMatch($text)
     {
-        return preg_match($this->pattern, $text) === 1
+        $match = preg_match($this->expression, $text);
+
+        if ($match === false) {
+            throw new \Exception('Something messed up');
+        }
+
+        return preg_match($this->expression, $text) === 1
             ? true
             : false;
     }

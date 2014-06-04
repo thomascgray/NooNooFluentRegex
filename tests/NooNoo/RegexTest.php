@@ -9,7 +9,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     /**
      * @var Regex
      */
-    protected $object;
+    protected $regex;
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -17,7 +17,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Regex;
+        $this->regex = new Regex;
     }
 
     /**
@@ -33,7 +33,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd()
     {
-        $actual = $this->object->add('add');
+        $actual = $this->regex->add('add');
         $this->assertEquals('(add)', $actual);
     }
 
@@ -42,7 +42,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddWithNamedGroup()
     {
-        $actual = $this->object->add('add', 'name');
+        $actual = $this->regex->add('add', 'name');
         $this->assertEquals('(?P<name>add)', $actual);
     }
 
@@ -52,7 +52,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddWithLimit()
     {
-        $actual = $this->object->between(1, 2)->add('add');
+        $actual = $this->regex->between(1, 2)->add('add');
         $this->assertEquals('(add{1,2})', $actual);
     }
 
@@ -62,7 +62,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddWithModifierZeroOrMore()
     {
-        $actual = $this->object->zeroOrMore()->add('zeroOrMore');
+        $actual = $this->regex->zeroOrMore()->add('zeroOrMore');
         $this->assertEquals('(zeroOrMore*)', $actual);
     }
 
@@ -73,7 +73,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddWithModifierOptional()
     {
-        $actual = $this->object->optional()->add('zeroOrOne');
+        $actual = $this->regex->optional()->add('zeroOrOne');
         $this->assertEquals('(zeroOrOne)?', $actual);
     }
 
@@ -83,7 +83,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testStart()
     {
-        $actual = $this->object->start();
+        $actual = $this->regex->start();
         $this->assertEquals('^', $actual);
     }
 
@@ -92,7 +92,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testEnd()
     {
-        $actual = $this->object->end();
+        $actual = $this->regex->end();
         $this->assertEquals('$', $actual);
     }
 
@@ -101,7 +101,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testLowercase()
     {
-        $actual = $this->object->lowercase();
+        $actual = $this->regex->lowercase();
         $this->assertEquals('([a-z])', $actual);
     }
 
@@ -110,7 +110,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testUppercase()
     {
-        $actual = $this->object->uppercase();
+        $actual = $this->regex->uppercase();
         $this->assertEquals('([A-Z])', $actual);
     }
 
@@ -119,7 +119,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testAlpha()
     {
-        $actual = $this->object->alpha();
+        $actual = $this->regex->alpha();
         $this->assertEquals('([a-zA-Z])', $actual);
     }
 
@@ -128,7 +128,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testSlugchar()
     {
-        $actual = $this->object->slugchar();
+        $actual = $this->regex->slugchar();
         $this->assertEquals('([a-zA-Z0-9-_\/])', $actual);
     }
 
@@ -137,7 +137,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testNumber()
     {
-        $actual = $this->object->number();
+        $actual = $this->regex->number();
         $this->assertEquals('([0-9]+)', $actual);
     }
 
@@ -146,7 +146,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testDigit()
     {
-        $actual = $this->object->digit();
+        $actual = $this->regex->digit();
         $this->assertEquals('([0-9])', $actual);
     }
 
@@ -155,7 +155,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testAlphanumeric()
     {
-        $actual = $this->object->alphanumeric();
+        $actual = $this->regex->alphanumeric();
         $this->assertEquals('([a-zA-Z0-9])', $actual);
 
         // So we can use the @depends annotation
@@ -166,9 +166,9 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      * @covers  NooNoo\Regex::then
      * @depends testAlphanumeric
      */
-    public function testThen($object)
+    public function testThen($regex)
     {
-        $actual = $object->then('teststring');
+        $actual = $regex->then('teststring');
         $this->assertEquals('([a-zA-Z0-9])(teststring)', $actual);
     }
 
@@ -176,9 +176,9 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      * @covers  NooNoo\Regex::raw
      * @depends testAlphanumeric
      */
-    public function testRaw($object)
+    public function testRaw($regex)
     {
-        $actual = $object->raw('(.*)');
+        $actual = $regex->raw('(.*)');
         $this->assertEquals('([a-zA-Z0-9])(teststring)((.*))', $actual);
     }
 
@@ -186,9 +186,9 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      * @covers  NooNoo\Regex::maybe
      * @depends testAlphanumeric
      */
-    public function testMaybe($object)
+    public function testMaybe($regex)
     {
-        $actual = $object->maybe('perhaps');
+        $actual = $regex->maybe('perhaps');
         $this->assertEquals('([a-zA-Z0-9])(teststring)((.*))(perhaps)?', $actual);
     }
 
@@ -196,9 +196,9 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      * @covers  NooNoo\Regex::either
      * @depends testAlphanumeric
      */
-    public function testEither($object)
+    public function testEither($regex)
     {
-        $actual = $object->either('couldbe', 'mightbe');
+        $actual = $regex->either('couldbe', 'mightbe');
         $this->assertEquals(
             '([a-zA-Z0-9])(teststring)((.*))(perhaps)?(couldbe|mightbe)',
             $actual
@@ -210,9 +210,9 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      * @depends testAlphanumeric
      * @todo   Implement testOneOf().
      */
-    public function testOneOf($object)
+    public function testOneOf($regex)
     {
-        $actual = $object->oneOf(array('is', 'it', 'in'));
+        $actual = $regex->oneOf(array('is', 'it', 'in'));
         $this->assertEquals(
             '([a-zA-Z0-9])(teststring)((.*))(perhaps)?(couldbe|mightbe)(is|it|in)',
             $actual
@@ -224,7 +224,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testMultiple()
     {
-        $actual = $this->object->multiple(2)->uppercase();
+        $actual = $this->regex->multiple(2)->uppercase();
         $this->assertEquals('([A-Z]{2})', $actual);
     }
 
@@ -233,7 +233,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testBetween()
     {
-        $actual = $this->object->between(1, 2)->uppercase();
+        $actual = $this->regex->between(1, 2)->uppercase();
         $this->assertEquals('([A-Z]{1,2})', $actual);
     }
 
@@ -242,7 +242,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testOneOrMore()
     {
-        $actual = $this->object->oneOrMore()->uppercase();
+        $actual = $this->regex->oneOrMore()->uppercase();
         $this->assertEquals('([A-Z]+)', $actual);
     }
 
@@ -251,7 +251,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testZeroOrMore()
     {
-        $actual = $this->object->zeroOrMore()->uppercase();
+        $actual = $this->regex->zeroOrMore()->uppercase();
         $this->assertEquals('([A-Z]*)', $actual);
     }
 
@@ -293,14 +293,20 @@ class RegexTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers NooNoo\Regex::isMatch
-     * @todo   Implement testIsMatch().
      */
     public function testIsMatch()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $actual = $this->regex->uppercase()->isMatch('Bs');
+        $this->assertTrue($actual);
+    }
+
+    /**
+     * @covers NooNoo\Regex::isMatch
+     */
+    public function testIsMatchFailure()
+    {
+        $actual = $this->regex->uppercase()->isMatch('ss');
+        $this->assertFalse($actual);
     }
 
     /**
@@ -312,7 +318,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testYorkshireMethods()
     {
-        $actual = $this->object->eyUp()
+        $actual = $this->regex->eyUp()
             ->goOnThen('test')
             ->couldAppen('s')
             ->goOnThen('more')
@@ -329,6 +335,6 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testNonexistentMethod()
     {
-        $this->object->trololol();
+        $this->regex->trololol();
     }
 }

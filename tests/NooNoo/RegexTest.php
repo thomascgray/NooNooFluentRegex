@@ -39,6 +39,15 @@ class RegexTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers NooNoo\Regex::add
+     */
+    public function testAddWithNamedGroup()
+    {
+        $actual = $this->object->add('add', 'name');
+        $this->assertEquals('(?P<name>add)', $actual);
+    }
+
+    /**
+     * @covers NooNoo\Regex::add
      * @covers NooNoo\Regex::addLimit
      */
     public function testAddWithLimit()
@@ -197,32 +206,30 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers NooNoo\Regex::oneOf
+     * @covers  NooNoo\Regex::oneOf
+     * @depends testAlphanumeric
      * @todo   Implement testOneOf().
      */
-    public function testOneOf()
+    public function testOneOf($object)
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
+        $actual = $object->oneOf(array('is', 'it', 'in'));
+        $this->assertEquals(
+            '([a-zA-Z0-9])(teststring)((.*))(perhaps)?(couldbe|mightbe)(is|it|in)',
+            $actual
         );
     }
 
     /**
      * @covers NooNoo\Regex::multiple
-     * @todo   Implement testMultiple().
      */
     public function testMultiple()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $actual = $this->object->multiple(2)->uppercase();
+        $this->assertEquals('([A-Z]{2})', $actual);
     }
 
     /**
      * @covers NooNoo\Regex::between
-     * @todo   Implement testBetween().
      */
     public function testBetween()
     {

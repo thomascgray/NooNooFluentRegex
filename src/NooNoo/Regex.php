@@ -90,9 +90,6 @@ class Regex
 
             case self::ONE_OR_MORE:
             case self::ZERO_OR_MORE:
-                $this->expression .= $this->multiple_string . ')';
-                break;
-
             default:
                 $this->expression .= $this->multiple_string . ')';
                 break;
@@ -262,12 +259,13 @@ class Regex
      */
     public function oneOf($elements = array())
     {
-        $pregged_array = array(); // lol pregged is a funny word
+        $expression = array_shift($elements);
+
         foreach ($elements as $element) {
-            $pregged_array[] = preg_quote($element, self::DELIMITER);
+            $expression .= '|' . preg_quote($element, self::DELIMITER);
         }
 
-        return $this->add(implode("|", $pregged_array));
+        return $this->add($expression);
     }
 
 

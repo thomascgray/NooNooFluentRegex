@@ -1,0 +1,7 @@
+# Files
+composer.lock
+*.sublime-*
+
+# Folders
+/vendor/
+tests/coverage/

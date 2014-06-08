@@ -15,6 +15,9 @@ namespace NooNoo;
  */
 class Regex
 {
+    /**
+     * Class constants. You can/should override these in a subclass.
+     */
     const DELIMITER                 = '#';
     const ZERO_OR_MORE              = '*';
     const ONE_OR_MORE               = '+';
@@ -22,16 +25,31 @@ class Regex
 
     /**
      * The current regex string
+     *
      * @var string
      */
     protected $expression;
 
+    /**
+     * Number of times a group is repeated OR beginning of range
+     *
+     * @var string
+     */
+    protected $multiple_value = null;
 
-    protected $multiple_value       = null;
+    /**
+     * Number of times a group is repeated OR beginning of range
+     *
+     * @var string
+     */
     protected $multiple_value_limit = null;
 
-    //for the cheeky hardcoded ones
-    protected $multiple_string      = null;
+    /**
+     * Any modifiers
+     *
+     * @var string
+     */
+    protected $multiple_string = null;
 
     /**
      * Class constructor
@@ -250,6 +268,7 @@ class Regex
      */
     public function oneOf($elements = array())
     {
+        // Get the first element from the array
         $expression = array_shift($elements);
 
         foreach ($elements as $element) {

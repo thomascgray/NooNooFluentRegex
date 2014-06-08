@@ -29,6 +29,15 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers NooNoo\Regex::__construct()
+     */
+    public function testConstruct()
+    {
+        $actual = new Regex;
+        $this->assertEmpty((string) $actual);
+    }
+
+    /**
      * @covers NooNoo\Regex::add
      */
     public function testAdd()

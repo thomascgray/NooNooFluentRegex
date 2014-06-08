@@ -355,10 +355,11 @@ class Regex
      */
     public function isMatch($text)
     {
-        $match = preg_match($this->expression, $text);
+
+        @$match = preg_match($this->expression, $text);
 
         if ($match === false) {
-            throw new \Exception('Something messed up');
+            throw new \Exception('The regular expression is invalid');
         }
 
         return preg_match($this->expression, $text) === 1

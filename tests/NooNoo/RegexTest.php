@@ -30,6 +30,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers NooNoo\Regex::__construct()
+     * @covers NooNoo\Regex::__toString
      */
     public function testConstruct()
     {
@@ -270,22 +271,8 @@ class RegexTest extends \PHPUnit_Framework_TestCase
      */
     public function testOptional()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers NooNoo\Regex::__toString
-     * @todo   Implement test__toString().
-     */
-    public function testToString()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $actual = $this->regex->optional()->uppercase();
+        $this->assertEquals('([A-Z])?', $actual);
     }
 
     /**
@@ -312,10 +299,19 @@ class RegexTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers NooNoo\Regex::isMatch
      */
-    public function testIsMatchFailure()
+    public function testIsNotMatch()
     {
         $actual = $this->regex->uppercase()->isMatch('ss');
         $this->assertFalse($actual);
+    }
+
+    /**
+     * @covers NooNoo\Regex::isMatch
+     * @expectedException Exception
+     */
+    public function testIsMatchFailure()
+    {
+        $actual = $this->regex->raw('+++')->isMatch('aaa');
     }
 
     /**

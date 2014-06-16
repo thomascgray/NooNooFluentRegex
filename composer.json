@@ -13,6 +13,11 @@
             "name": "Hassan Khan",
             "email": "hassan_khan@scee.net",
             "homepage": "http://hassankhan.me/"
+        },
+        {
+            "name": "Tom Gray",
+            "email": "tom.c.gray@gmail.com",
+            "homepage": "http://thomascgray.co.uk/"
         }
     ],
     "autoload": {

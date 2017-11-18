@@ -1,7 +1,7 @@
 {
     "name": "tomgray15/noonoo-fluent-regex",
     "description": "Build Regex expressions using fluent setters and English language terms",
-    "keywords": ["regex"],
+    "keywords": ["regex", "builder"],
     "homepage": "https://github.com/tomgray15/NooNooFluentRegex",
     "authors": [
         {
@@ -17,7 +17,7 @@
         {
             "name": "Tom Gray",
             "email": "tom.c.gray@gmail.com",
-            "homepage": "http://thomascgray.co.uk/"
+            "homepage": "http://thomascgray.github.io/"
         }
     ],
     "autoload": {

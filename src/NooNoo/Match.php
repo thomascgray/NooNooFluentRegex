@@ -8,16 +8,39 @@ namespace NooNoo;
  * This class matches a Regex object against another string
  *
  * @package     NooNoo
- * @author      tomgray15
+ * @author      thomascgray
  * @version     0.1.1
  *
  */
 class Match
 {
+    /**
+     * the input of this Match instance to match the regex against
+     *
+     * @var string
+     */
     protected $input = '';
+
+    /**
+     * the regex pattern that we will be matching against the input
+     *
+     * @var string
+     */
     protected $pattern = '';
+
+    /**
+     * any capture groups that were found from matching the pattern regex against the input
+     *
+     * @var string[]
+     */
     protected $groups = array();
 
+    /**
+     * takes an input
+     *
+     * @param string $input
+     * @param string $pattern
+     */
     public function __construct($input = '', $pattern = '')
     {
         $this->input = $input;
@@ -29,17 +52,9 @@ class Match
     }
 
     /**
-     * @return $this
-     */
-    public function doMatch()
-    {
-        preg_match("/" . $pattern . "/", $input, $output_array);
-
-        return $this;
-    }
-
-    /**
-     * @param $input
+     * set the input
+     *
+     * @param string $input
      * @return $this
      */
     public function setInput($input)
@@ -50,16 +65,19 @@ class Match
     }
 
     /**
-     * @param $input
+     * gets the input
+     *
      * @return string
      */
-    public function getInput($input)
+    public function getInput()
     {
         return $this->input;
     }
 
     /**
-     * @param $value
+     * sets the regex pattern
+     * 
+     * @param string $value
      * @return $this
      */
     public function setPattern($value)
@@ -70,6 +88,8 @@ class Match
     }
 
     /**
+     * gets the regex pattern
+     * 
      * @return string
      */
     public function getPattern()
@@ -78,6 +98,8 @@ class Match
     }
 
     /**
+     * returns the capture groups
+     * 
      * @return array
      */
     public function getGroups()
@@ -86,20 +108,24 @@ class Match
     }
 
     /**
-     * @param $index_or_name
-     * @return mixed
+     * gets a specific group by its index in the main groups array
+     * 
+     * @param string|integer $index
+     * @return string
      * @throws OutOfRangeException
      */
-    public function getGroup($index_or_name)
+    public function getGroup($index)
     {
-        if (isset($this->groups[$index_or_name])) {
-            return $this->groups[$index_or_name];
+        if (isset($this->groups[$index])) {
+            return $this->groups[$index];
         } else {
             throw new OutOfRangeException('Attempting to find group by index or name - Group does not exist');
         }
     }
 
     /**
+     * returns true if this Match __construct() found any capture groups - otherwise false
+     * 
      * @return bool
      */
     public function isMatch()
@@ -112,14 +138,12 @@ class Match
     }
 
     /**
+     * calls $this->isMatch() when invoked
+     * 
      * @return bool
      */
     public function __invoke()
     {
-        if ($this->isMatch()) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->isMatch();
     }
 }

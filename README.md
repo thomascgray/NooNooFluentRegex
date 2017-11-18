@@ -1,5 +1,7 @@
-NooNooFluentRegex
+NooNoo Fluent Regex
 =================
+
+# What
 
 Build Regex expressions using fluent setters and English language terms
 
@@ -8,52 +10,59 @@ $regex = new Regex();
 
 //regex for a url
 $regex->start()
-        ->then("http")
-        ->maybe("s")
-        ->then("://")
-        ->maybe("www.")
-        ->oneOrMore()
-        ->slugchar()
-        ->either(".co", ".com")
-        ->zeroOrMore()
-        ->slugchar()
-        ->end();
+      ->then("http")
+      ->maybe("s")
+      ->then("://")
+      ->maybe("www.")
+      ->oneOrMore()
+      ->slugchar()
+      ->either(".co", ".com")
+      ->zeroOrMore()
+      ->slugchar()
+      ->end();
 
-echo $regex;
-
-//^(http)(s)?(\:\/\/)(www\.)?([a-zA-Z0-9-_\/]+)(\.co|\.com)([a-zA-Z0-9-_\/]*)$
+echo $regex; // ^(http)(s)?(\:\/\/)(www\.)?([a-zA-Z0-9-_\/]+)(\.co|\.com)([a-zA-Z0-9-_\/]*)$
 ```
+# Docs
+Please see [DOCS.md](DOCS.md) for full details on the API documentation
 
-####TODO
-- Change class method visibilities
-- Add docs for every kind of "chunk" you can use.
-- Make some "flag" chunks i.e everything between these 2 is optional in and of itself.
-- Add tests
-- ``start()`` and ``end()`` should only be called once
-- Refactor code:
-    - Get it on Composer/Packagist
+# Changelog
+- 0.0.2
+    - I've not touched this in *4* years! Figured it was time I improved things a little :smile:
+    - Moved code around
+    - Improved doc blocks
+    - Improved README
+    - Started putting together some proper API docs
 
-####Exclusive! Build your Regex using _Yorkshire Slang!_
+- 0.0.1
+    - First major release, landed on Github
+
+# Roadmap
+Please see [ROADMAP.md](ROADMAP.md) for further details on upcoming featuresa
+
+# Examples
+
+#### Exclusive! Build your Regex using _Yorkshire Slang!_
 
 Here's the above example, but this time, a bit more..._~~Northern~~ Better_
 
 ```php
 $regex->eyUp()
-        ->goOnThen("http")
-        ->couldAppen("s")
-        ->goOnThen("://")
-        ->couldAppen("www.")
-        ->oneOrMore()
-        ->slugchar()
-        ->oneOrTother(".co", ".com")
-        ->zeroOrMore()
-        ->slugchar()
-        ->thatllDo();
+      ->goOnThen("http")
+      ->couldAppen("s")
+      ->goOnThen("://")
+      ->couldAppen("www.")
+      ->oneOrMore()
+      ->slugchar()
+      ->oneOrTother(".co", ".com")
+      ->zeroOrMore()
+      ->slugchar()
+      ->thatllDo();
 ```
 
-###Finding Matches
+### Finding Matches
 
-We can use the Match class to return capture groups for an input and a Regex pattern (as well as checking that the pattern matches the text, obviously)
+We can use the `Match` class to return capture groups for an input and a Regex pattern (as well as checking that the pattern matches the text, obviously)
 
 __Simple Match__
 
@@ -82,7 +91,17 @@ else
 If you build your pattern using a NooNooFluentRegex Regex object, each "chunk" that could contain characters will be its own capture group.
 
 ```php
-//using the Regex object from the URL example
+$regex->start()
+      ->then("http")
+      ->maybe("s")
+      ->then("://")
+      ->maybe("www.")
+      ->oneOrMore()
+      ->slugchar()
+      ->either(".co", ".com")
+      ->zeroOrMore()
+      ->slugchar()
+      ->end();
 
 $match = new Match("http://www.example.com/example_page", $regex);
 
@@ -107,7 +126,7 @@ echo $match->getGroup("name"); // echos "Tom"
 echo $match->getGroup("uppercase"); // echos "Z"
 
 ```
-###Doing Replacements
+### Doing Replacements
 
 We can use the Replacer class to do both mass replacements and individual, case-by-case replacements.
 
@@ -128,12 +147,11 @@ echo $replacer->replace("Sam went to play football"); //echos out "Tom went to p
 echo $replacer->replace("Dave goes to the shop"); //echos out "Tom goes to the shop";
 ```
 
-As said, you can also pass in optional arguments to the replace function to do case by case replacements.
+You can pass in an optional argument to the replace function to do case by case replacements.
 
 ```php
 //using the same variables as before
 
-echo $replacer->replace("Martin plays too much Starcraft", "Sally"); //echos out "Sally plays too much Starcraft";
+echo $replacer->replace("Martin plays too much Starcraft", "Sally"); // "Sally plays too much Starcraft"
+echo $replacer->replace("Martin plays too much Starcraft"); // "Tom plays too much Starcraft"
 ```
-
-You can also pass in an optional third argument of a new pattern to use for a case-by-case replacement.

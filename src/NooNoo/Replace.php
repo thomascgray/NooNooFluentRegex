@@ -8,7 +8,7 @@ namespace NooNoo;
  * This class replaces a string with a Regex object
  *
  * @package     NooNoo
- * @author      tomgray15
+ * @author      Tom Gray 
  * @version     0.1.1
  *
  */

@@ -9,7 +9,7 @@ namespace NooNoo;
  * rules
  *
  * @package     NooNoo
- * @author      tomgray15
+ * @author      thomascgray
  * @version     0.1.1
  *
  */
@@ -33,7 +33,7 @@ class Regex
     /**
      * Number of times a group is repeated OR beginning of range
      *
-     * @var string
+     * @var boolean
      */
     protected $multiple_value = null;
 
@@ -64,11 +64,11 @@ class Regex
      *
      * @param  string $string The actual chunk of regex/text/whatever
      * @param  string $name   Optional name for this capture group
+     * 
      * @return Regex
      */
     public function add($string, $name = null)
     {
-
         $this->expression .= '(';
 
         if (isset($name)) {
@@ -81,30 +81,6 @@ class Regex
         $this->addModifier();
 
         return $this;
-    }
-
-    protected function addLimit()
-    {
-        if (isset($this->multiple_value)) {
-            $this->expression .= '{' . $this->multiple_value;
-
-            $this->expression .= isset($this->multiple_value_limit)
-                ? ',' . $this->multiple_value_limit . '}'
-                : '}';
-
-            $this->multiple_value       = null;
-            $this->multiple_value_limit = null;
-        }
-    }
-
-    protected function addModifier()
-    {
-        // Handle modifiers
-        $this->expression .= $this->multiple_string === self::ZERO_OR_ONE
-            ? ')' . $this->multiple_string
-            : $this->multiple_string . ')';
-
-        $this->multiple_string = '';
     }
 
     /**
@@ -133,6 +109,7 @@ class Regex
      * Any lowercase characters
      *
      * @param  string $name
+     * 
      * @return Regex
      */
     public function lowercase($name = null)
@@ -144,6 +121,7 @@ class Regex
      * Any uppercase characters
      *
      * @param  string $name
+     * 
      * @return Regex
      */
     public function uppercase($name = null)
@@ -155,6 +133,7 @@ class Regex
      * Any letter of any case
      *
      * @param  string $name
+     * 
      * @return Regex
      */
     public function alpha($name = null)
@@ -166,6 +145,7 @@ class Regex
      * Any letter, number, underscore or hyphen
      *
      * @param  string $name
+     * 
      * @return Regex
      */
     public function slugchar($name = null)
@@ -177,6 +157,7 @@ class Regex
      * Any number of any length
      *
      * @param  string $name
+     * 
      * @return Regex
      */
     public function number($name = null)
@@ -189,6 +170,7 @@ class Regex
      * Match a single digit
      *
      * @param  string $name
+     * 
      * @return Regex
      */
     public function digit($name = null)
@@ -200,6 +182,7 @@ class Regex
      * Match any alphanumeric character
      *
      * @param  string $name
+     * 
      * @return Regex
      */
     public function alphanumeric($name = null)
@@ -208,7 +191,7 @@ class Regex
     }
 
     /**
-     * Baically an alias for "add"
+     * An alias for "add"
      *
      * @param  string $string
      * @param  string $name
@@ -220,10 +203,11 @@ class Regex
     }
 
     /**
-     * Same as ``then()``, but for raw regex expressions
+     * Same as `add()`, but for raw regex expressions
      *
      * @param  string  $string
      * @param  string  $name
+     * 
      * @return Regex
      */
     public function raw($string, $name = null)
@@ -236,6 +220,7 @@ class Regex
      *
      * @param  string $string
      * @param  string $name
+     * 
      * @return Regex
      */
     public function maybe($string, $name = null)
@@ -355,7 +340,6 @@ class Regex
      */
     public function isMatch($text)
     {
-
         @$match = preg_match($this->expression, $text);
 
         if ($match === false) {
@@ -384,7 +368,7 @@ class Regex
             "goOnThen"    => "then"
         );
 
-        // If method isn"t in the array baove, throw Exception
+        // If method isn"t in the array above, throw Exception
         if (!in_array($method, array_keys($allowedMethods))) {
             throw new \Exception("Method " . $method . " doesn\"t exist");
         }
@@ -394,6 +378,29 @@ class Regex
             array($this, $allowedMethods[$method]),
             $arguments
         );
+    }
 
+    protected function addLimit()
+    {
+        if (isset($this->multiple_value)) {
+            $this->expression .= '{' . $this->multiple_value;
+
+            $this->expression .= isset($this->multiple_value_limit)
+                ? ',' . $this->multiple_value_limit . '}'
+                : '}';
+
+            $this->multiple_value       = null;
+            $this->multiple_value_limit = null;
+        }
+    }
+
+    protected function addModifier()
+    {
+        // Handle modifiers
+        $this->expression .= $this->multiple_string === self::ZERO_OR_ONE
+            ? ')' . $this->multiple_string
+            : $this->multiple_string . ')';
+
+        $this->multiple_string = '';
     }
 }

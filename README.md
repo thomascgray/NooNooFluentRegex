@@ -1,6 +1,10 @@
 NooNoo Fluent Regex
 =================
 
+# DEPRECEATION
+
+This repo is no longer maintained - I highly recommend you move your code usage over to https://github.com/selvinortiz/flux - it features a very similar API!
+
 # What
 
 Build Regex expressions using fluent setters and English language terms
